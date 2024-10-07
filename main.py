@@ -1,24 +1,39 @@
 
 def main():
-    path_to_file = "./books/frankenstein.txt"
-    with open(path_to_file) as f:
-        file_contents = f.read()
-        print(f"There are {num_of_words(file_contents)} words in this text")
-        print("These are the number of times each letter appears in the text:", num_of_chars(file_contents))
-        
-def num_of_words(book):
-    words = book.split() # line below creates a list of words from the book    
-    return len(words) # line below returns simple list number of elements
+    book_file_name = "frankenstein.txt"
+    path_to_file = "./books/"
+    filepath = path_to_file + book_file_name
+    try:
+        with open(filepath) as f:
+            file_content = f.read()
+            print(f"\n --- Begin report of books/{book_file_name} ---")
+            print(f"{num_of_words(file_content)} Words found in the document \n")
+            sort_print_result(file_content)
+            print(" ---  End report ---")
+    except:
+        print("Please Check the code !")
 
-def num_of_chars(book):
-    deekshn = {}
-    for w in book:
-        llw = w.lower() # convert to lowercase              
-        if llw in deekshn:
-            deekshn[llw] += 1 #not a first instance
+def num_of_words(text):
+    words = text.split()
+    return len(words)
+
+def charz_count_dict(text):
+    deekht = {}
+    for ch in text:
+        chs = ch.lower()
+        if chs in deekht:
+            deekht[chs] += 1
         else:
-            deekshn[llw] = 1 #first instance
-            
-    return deekshn # return the dictionary
+            deekht[chs] = 1
+    return deekht
+
+def sort_print_result(book):
+    dict = charz_count_dict(book)
+    tapl = list(dict.items())
+    zorded = sorted(tapl, reverse=True, key=lambda shar: shar[1])
+    for letter, count in zorded:
+        if letter.isalpha():
+            print(f"The '{letter}' character was found {count} times")
+
     
 main()
